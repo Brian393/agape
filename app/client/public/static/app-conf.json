@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "Crystalball",
-    "tagline": "open-source mapkit",
-    "projectWebsite": "https://wiki.timetochange.today",
+    "title": "agape",
+    "tagline": "open exploratory vehicle",
+    "projectWebsite": "https://blog.solutionsforpostmodernliving.com/",
     "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
@@ -163,29 +163,6 @@
         }
       },
       {
-        "type": "VECTOR",
-        "name": "mississippi",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:mississippi&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": false,
-        "legendDisplayName": "Lines",
-        "format": "GeoJSON",
-        "visible": true,
-        "displayInLegend": true,
-        "zIndex": 1000,
-        "minResolution": 2446,
-        "maxResolution": 64000,
-        "label": false,
-        "hoverable": true,
-        "style": {
-          "type": "line",
-          "strokeColor": "#40a3c9",
-          "strokeWidth": 1.5,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
         "type": "XYZ",
         "name": "osm",
         "group": "backgroundLayers",
@@ -196,34 +173,6 @@
         "legendDisplayName": "OpenStreetMap",
         "opacity": 0.99,
         "visible": true
-      },
-      {
-        "type": "VECTOR",
-        "name": "glri_projects",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "data",
-        "queryable": true,
-        "displayInLegend": false,
-        "format": "GeoJSON",
-        "legendDisplayName": "Restoration projects",
-        "visible": true,
-        "displayInLegend": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {
-            "fillColor": "variable1",
-            "radius": "variable2"
-          },
-          "strokeColor": "rgba(255,255,255,0.7)",
-          "strokeWidth": 1
-        }
       },
       {
         "type": "XYZ",
@@ -253,6 +202,7 @@
         "url": "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 4,
         "maxResolution": 64000,
+        "opacity": 0.3,
         "queryable": false,
         "visible": true
       },
@@ -261,22 +211,20 @@
         "name": "World_Physical",
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 800,
+        "minResolution": 4,
         "maxResolution": 64000,
-        "opacity": 0.6,
+        "opacity": 1,
         "queryable": false,
         "visible": true
       }
     ],
     "groups": {
-      "media": {
+      "green": {
         "default": {
           "layers": [
-            "World_Hillshade",
             "ESRI-World-Imagery2",
-            "osm",
-            "mississippi",
-            "polygons",
+            "World_Physical",
+            "World_Hillshade",
             "ESRI-World-Imagery",
             "points",
             "lines",
@@ -307,9 +255,18 @@
           "maxResolution": 64000
         }
       },
-      "data": {
+      "yellow": {
         "default": {
-          "layers": ["osm", "ESRI-World-Imagery", "glri_projects"],
+          "layers": [
+            "ESRI-World-Imagery2",
+            "World_Physical",
+            "World_Hillshade",
+            "ESRI-World-Imagery",
+            "points",
+            "lines",
+            "videos",
+            "photos"
+          ],
           "center": [-84.474, 43.822],
           "resolution": 1000,
           "mobileResolution": 1400,
@@ -340,10 +297,10 @@
       "delayInSecondsBetweenFrames": 120000,
       "maplinks": [""]
     },
-    "defaultActiveGroup": "media",
+    "defaultActiveGroup": "green",
     "groupTitles": {
-      "media": "media",
-      "data": "data"
+      "green": "green pill",
+      "yellow": "yellow pill"
     },
     "regionTitles": {
       "local": "local",
