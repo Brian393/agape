@@ -613,4 +613,7 @@ export const layersStylePropFn = {
     strokeColor: propertyValue => propertyValue,
     strokeWidth: propertyValue => propertyValue,
   },
+  country_colors: {
+    fillColor: propertyValue => propertyValue,
+  },
 };
