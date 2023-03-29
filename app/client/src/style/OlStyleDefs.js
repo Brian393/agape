@@ -616,4 +616,7 @@ export const layersStylePropFn = {
   country_colors: {
     fillColor: propertyValue => propertyValue,
   },
+  freshwater2: {
+    fillColor: propertyValue => propertyValue,
+  },
 };
