@@ -224,7 +224,7 @@
           "fillColor": "#4682B4"
         }
       },
-            {
+      {
         "type": "VECTOR",
         "name": "cables",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cables&outputFormat=application/json&srsname=EPSG:3857",
@@ -319,8 +319,8 @@
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
+          "strokeColor": "#000000",
           "stylePropFnRef": {
-            "strokeColor": "#000000",
             "fillColor": "variable1"
           },
           "strokeWidth": 1
@@ -668,7 +668,7 @@
           "center": [-120.846, 22.489],
           "resolution": 60000,
           "mobileResolution": 60000,
-          "mobileCenter": [-53.566, 0.000],
+          "mobileCenter": [-53.566, 0.0],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -705,7 +705,7 @@
           "center": [2.168, 21.736],
           "resolution": 60000,
           "mobileResolution": 60000,
-          "mobileCenter": [-53.566, 0.000],
+          "mobileCenter": [-53.566, 0.0],
           "minResolution": 0,
           "maxResolution": 64000
         },
