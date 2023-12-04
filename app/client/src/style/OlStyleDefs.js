@@ -615,8 +615,10 @@ export const layersStylePropFn = {
   },
   country_colors: {
     fillColor: propertyValue => propertyValue,
+    strokeColor: propertyValue => propertyValue,
   },
   freshwater2: {
     fillColor: propertyValue => propertyValue,
+    strokeColor: propertyValue => propertyValue,
   },
 };
