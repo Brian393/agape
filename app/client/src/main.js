@@ -56,7 +56,7 @@ axios
 
 // App Configuration
 // eslint-disable-next-line no-undef
-  // fetch('./static/app-conf.json')
+// fetch('./static/app-conf.json')
 fetch('https://agape-map.s3.us-west-2.amazonaws.com/assets/settings/app-conf.json')
   .then(response => {
     if (response.status !== 200) {
