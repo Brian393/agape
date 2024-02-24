@@ -1,5 +1,5 @@
 <template>
-  <div id="ol-map-container">
+  <div id="ol-map-container" @click="$event => resetAfterSlide()" @mousemove="resetAfterSlide()">
     <!-- Map Controls -->
     <map-legend :color="color.primary" />
     <div style="position: absolute; left: 20px; top: 10px">
@@ -131,6 +131,11 @@
       :progressColor="progressLoading.progressColor"
       :message="progressLoading.message"
     ></progress-loader>
+    <progress-loader
+      :value="isTranslating"
+      :progressColor="progressLoading.progressColor"
+      :message="$t('translation.translateLoadingText')"
+    ></progress-loader>
     <!-- Show snackbar -->
     <snackbar style="margin-top: 60px"></snackbar>
   </div>
@@ -150,7 +155,7 @@ import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {fromExtent} from 'ol/geom/Polygon';
 import {fromLonLat} from 'ol/proj';
-import {extend} from 'ol/extent';
+import {extend, createEmpty} from 'ol/extent';
 import {like as likeFilter, or as orFilter} from 'ol/format/filter';
 
 // style imports
@@ -241,7 +246,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 100,
+      radius: 160,
       mousePosition: undefined,
       spotlightMessage: false,
       lightBoxImages: [],
@@ -291,7 +296,7 @@ export default {
     EventBus.$on('closePopupInfo', me.closePopup);
     EventBus.$on('resetMap', me.resetMap);
     EventBus.$on('noMapReset', () => {
-      this.noMapReset = true;
+      this.noMapReset = false;
     });
     EventBus.$on('diveToFeatureEnd', () => {
       this.updateMousePosition();
@@ -361,7 +366,6 @@ export default {
     me.resetMap();
     me.createLayers();
     me.createHtmlPostLayer();
-
     // Event bus setup for managing interactions
     EventBus.$on('ol-interaction-activated', startedInteraction => {
       me.activeInteractions.push(startedInteraction);
@@ -373,6 +377,14 @@ export default {
   },
 
   methods: {
+    resetAfterSlide() {
+      if (this.slideshow.isRunning) {
+        this.slideshow.isRunning = false;
+        this.stopSlideshow();
+        this.sidebarState = true;
+        this.initMapFly();
+      }
+    },
     /**
      * Creates the OL layers due to the map "layers" array in app config.
      * @return {ol.layer.Base[]} Array of OL layer instances
@@ -396,7 +408,7 @@ export default {
           layer.setVisible(this.layerVisibilityState[layer.get('name')]);
         }
         // Enable spotlight for ESRI Imagery
-        if (layer.get('name') === 'ESRI-World-Imagery' || layer.get('name') === 'ESRI-World-Imagery3') {
+        if (layer.get('name') === 'ESRI-World-Imagery2' || layer.get('name') === 'ESRI-World-Imagery3') {
           layer.on('prerender', e => {
             this.spotlight(e);
           });
@@ -407,6 +419,18 @@ export default {
         if (layer.get('name')) {
           me.setLayer(layer);
         }
+      });
+    },
+    resetLayersVisibility() {
+      const visibleLayers = this.visibleGroup.layers;
+      this.map.getLayers().forEach(layer => {
+        const layerIndex = visibleLayers.indexOf(layer.get('name'));
+        if (layerIndex === -1) return;
+        this.$appConfig.map.layers.forEach(lConf => {
+          if (lConf.name === layer.get('name')) {
+            layer.setVisible(!!lConf.visible);
+          }
+        });
       });
     },
     createHtmlPostLayer() {
@@ -695,7 +719,17 @@ export default {
               hitTolerance: 3,
             }
           );
+
           this.map.getTarget().style.cursor = feature ? 'pointer' : '';
+          // For cluster features
+          if (feature && Array.isArray(feature.get('features'))) {
+            const size = feature.get('features').length;
+            if (size === 1) {
+              feature = feature.get('features')[0];
+            } else {
+              return;
+            }
+          }
 
           if (!feature || !layer.get('hoverable')) {
             overlayEl.innerHTML = null;
@@ -703,8 +737,21 @@ export default {
           } else {
             if (!feature) return;
             if (this.popup.activeFeature && this.popup.activeFeature.getId() === `clone.${feature.getId()}`) return;
-            const attr =
-              feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+
+            let attr = '';
+            if (feature.get('translations')) {
+              const translations = JSON.parse(feature.get('translations'));
+              if (translations[this.$i18n.locale]) {
+                attr = translations[this.$i18n.locale].title;
+              } else {
+                attr =
+                  feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+              }
+            } else {
+              attr =
+                feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+            }
+
             if (!attr) return;
             if (layer.get('styleObj')) {
               const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
@@ -734,7 +781,7 @@ export default {
         this.mousePosition = this.map.getEventPixel(evt.originalEvent);
         // Render is only triggered for spotlight which is visible in zoom levels below 20
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 20) {
+        if (resolutionLevel <= 40) {
           this.map.render();
         }
       });
@@ -780,7 +827,7 @@ export default {
       // for using the spotlights should be shown based on zoom level.
       this.map.on('moveend', () => {
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 8) {
+        if (resolutionLevel <= 2) {
           this.spotlightMessage = true;
         } else {
           this.spotlightMessage = false;
@@ -823,6 +870,22 @@ export default {
             hitTolerance: 3,
           }
         );
+
+        // For cluster features
+        if (feature && Array.isArray(feature.get('features'))) {
+          const size = feature.get('features').length;
+          if (size === 1) {
+            feature = feature.get('features')[0];
+          } else {
+            const extent = createEmpty();
+            const clusterMembers = feature.get('features');
+            clusterMembers.forEach(feature => extend(extent, feature.getGeometry().getExtent()));
+            const view = me.map.getView();
+            view.fit(extent, {duration: 500, padding: [100, 100, 100, 100]});
+            return;
+          }
+        }
+
         // Check if layer is interactive
         if ((layer && layer.get('isInteractive') === false) || (layer && layer.get('queryable') === false)) return;
 
@@ -895,6 +958,7 @@ export default {
             return;
           }
           this.previousMapPosition = null;
+
           this.popup.activeFeature = feature.clone ? feature.clone() : feature;
 
           // Add id reference
@@ -960,11 +1024,14 @@ export default {
       this.stopSlideshow();
       // Timeout for initial start.
       this.slideshow.timeout = setTimeout(() => {
+        this.slideshow.isRunning = true;
+
         // Timer for slideshow.
         this.slideshow.timer = new Timer(
           this.mapFlyToFn,
           this.$appConfig.map.flyToSlideshow.delayInSecondsBetweenFrames * 1000
         );
+
         this.slideshow.timer.start();
       }, this.$appConfig.map.flyToSlideshow.delayInSecondsForInitialStart * 1000);
     },
@@ -1277,9 +1344,13 @@ export default {
       persistentLayers: 'persistentLayers',
       mobilePanelState: 'mobilePanelState',
       visibleGroup: 'visibleGroup',
+      isTranslating: 'isTranslating',
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
+    }),
+    ...mapFields('app', {
+      sidebarState: 'sidebarState',
     }),
     ...mapFields('map', {
       previousMapPosition: 'previousMapPosition',
@@ -1354,7 +1425,7 @@ export default {
         }
       } else {
         this.resetMap();
-      }
+      } //
 
       this.selectedCoorpNetworkEntity = null;
       // Emit group change event.
@@ -1448,3 +1519,4 @@ div.ol-control button {
   z-index: 100;
 }
 </style>
+
