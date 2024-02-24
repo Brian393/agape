@@ -6,7 +6,11 @@
     "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
-      "secondary": "red"
+      "secondary": "#7C2CA3"
+    },
+    "font": {
+      "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+      "family": "Roboto"
     },
     "legend": {
       "isVisible": true
@@ -18,7 +22,7 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#ffffff",
+      "backgroundColor": "#f5efe9",
       "textColor": "black"
     },
     "navbar": {
@@ -62,8 +66,8 @@
           "radius": 3,
           "strokeWidth": 1,
           "stylePropFnRef": {
-            "fillColor": "variable1",
-            "strokeColor": "variable2"
+            "strokeColor": "variable1",
+            "fillColor": "variable2"
           },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -138,6 +142,7 @@
         "maxResolution": 64000,
         "label": false,
         "hoverable": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/line.png",
         "style": {
           "type": "line",
           "stylePropFnRef": {
@@ -558,6 +563,112 @@
       },
       {
         "type": "VECTOR",
+        "name": "colaboradores",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:colaboradores&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "HsF",
+          "es": "HsF",
+          "pt": "HsF"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "legendIcon": "",
+        "style": {
+          "type": "circle",
+          "radius": 8,
+          "strokeWidth": 2,
+          "stylePropFnRef": {
+            "fillColor": "variable1"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "cluster": {
+            "options": {
+              "distance": 20,
+              "minDistance": 0
+            },
+            "style": {
+              "innerCircle": {
+                "radius": 14,
+                "fillColor": "rgba(255, 165, 0, 0.7)",
+                "text": {
+                  "fillColor": "#fff",
+                  "strokeColor": "rgba(0, 0, 0, 0.6)",
+                  "strokeWidth": 3
+                }
+              },
+              "outerCircle": {
+                "radius": 20,
+                "fillColor": "rgba(255, 153, 102, 0.3)"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "chi_test",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:chi_test&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "Coal Ash",
+          "es": "Coal Ash",
+          "pt": "Coal Ash"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "type": "circle",
+          "radius": 8,
+          "strokeWidth": 1,
+          "strokeColor": "red",
+          "stylePropFnRef": {
+            "fillColor": "variable1"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "cluster": {
+            "options": {
+              "distance": 20,
+              "minDistance": 0
+            },
+            "style": {
+              "innerCircle": {
+                "radius": 14,
+                "fillColor": "rgba(255, 165, 0, 0.7)",
+                "text": {
+                  "fillColor": "#fff",
+                  "strokeColor": "rgba(0, 0, 0, 0.6)",
+                  "strokeWidth": 3
+                }
+              },
+              "outerCircle": {
+                "radius": 20,
+                "fillColor": "rgba(255, 153, 102, 0.3)"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "videos",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -582,13 +693,18 @@
       {
         "type": "XYZ",
         "name": "osm",
-        "group": "backgroundLayers",
+        "group": "media",
         "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.25,
-        "maxResolution": 60000,
-        "displayInLegend": false,
-        "legendDisplayName": "OpenStreetMap",
-        "opacity": 0.99,
+        "maxResolution": 64000,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
+        "legendDisplayName": {
+          "en": "OpenStreetMap",
+          "es": "OpenStreetMap",
+          "pt": "OpenStreetMap"
+        },
         "visible": true
       },
       {
@@ -597,7 +713,8 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 8,
+        "maxResolution": 64000,
+        "opacity": 1,
         "queryable": false,
         "visible": true
       },
@@ -612,6 +729,31 @@
         "legendDisplayName": "Base map",
         "opacity": 1,
         "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
+        "legendDisplayName": {
+          "en": "Spotlight",
+          "es": "Foco satélital",
+          "pt": "Foco satelital"
+        },
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery3",
+        "group": "data",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 2,
+        "opacity": 1,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
+        "legendDisplayName": {
+          "en": "Spotlight",
+          "es": "Foco satélital",
+          "pt": "Foco satelital"
+        },
         "visible": true
       },
       {
@@ -649,6 +791,17 @@
         "opacity": 1,
         "queryable": false,
         "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "carto_dark",
+        "group": "backgroundLayers",
+        "url": "https://{a-d}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        "minResolution": 0.25,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true
       }
     ],
     "groups": {
@@ -673,7 +826,7 @@
           "maxResolution": 64000
         },
         "local": {
-          "layers": [],
+          "layers": ["ESRI-World-Imagery"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -681,7 +834,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": [],
+          "layers": ["osm2", "Rosario", "colaboradores", "chi_test"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -710,7 +863,7 @@
           "maxResolution": 64000
         },
         "local": {
-          "layers": [],
+          "layers": ["osm", "burnables"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -718,7 +871,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": [],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "burnables"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -738,8 +891,16 @@
       "yellow": "Conviviality"
     },
     "regionTitles": {
-      "local": "local",
-      "global": "global",
+      "local": {
+        "en": "local",
+        "es": "entorno",
+        "pt": "entorno"
+      },
+      "global": {
+        "en": "global",
+        "es": "mundo",
+        "pt": "mundo"
+      },
       "default": "Default"
     },
     "popupFieldsMapping": {
@@ -762,7 +923,10 @@
       "videoSrc",
       "colorkey",
       "latitude",
-      "longitude"
+      "longitude",
+      "port",
+      "soybean_importer",
+      "translations"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": ""
