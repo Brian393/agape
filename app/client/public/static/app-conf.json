@@ -6,11 +6,7 @@
     "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
-      "secondary": "#7C2CA3"
-    },
-    "font": {
-      "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
-      "family": "Roboto"
+      "secondary": "red"
     },
     "legend": {
       "isVisible": true
@@ -22,7 +18,7 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#f5efe9",
+      "backgroundColor": "#ffffff",
       "textColor": "black"
     },
     "navbar": {
@@ -51,7 +47,7 @@
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
-        "legendDisplayName": "Global corporations & universities",
+        "legendDisplayName": "Global corporations and universities",
         "visible": true,
         "displayInLegend": true,
         "isInteractive": true,
@@ -70,7 +66,28 @@
             "fillColor": "variable2"
           },
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#000000",
+          "cluster": {
+            "options": {
+              "distance": 20,
+              "minDistance": 0
+            },
+            "style": {
+              "innerCircle": {
+                "radius": 14,
+                "fillColor": "rgba(255, 165, 0, 0.7)",
+                "text": {
+                  "fillColor": "#fff",
+                  "strokeColor": "rgba(0, 0, 0, 0.6)",
+                  "strokeWidth": 3
+                }
+              },
+              "outerCircle": {
+                "radius": 20,
+                "fillColor": "rgba(255, 153, 102, 0.3)"
+              }
+            }
+          }
         }
       },
       {
@@ -142,7 +159,6 @@
         "maxResolution": 64000,
         "label": false,
         "hoverable": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/line.png",
         "style": {
           "type": "line",
           "stylePropFnRef": {
@@ -563,112 +579,6 @@
       },
       {
         "type": "VECTOR",
-        "name": "colaboradores",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:colaboradores&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": true,
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "HsF",
-          "es": "HsF",
-          "pt": "HsF"
-        },
-        "visible": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "legendIcon": "",
-        "style": {
-          "type": "circle",
-          "radius": 8,
-          "strokeWidth": 2,
-          "stylePropFnRef": {
-            "fillColor": "variable1"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "cluster": {
-            "options": {
-              "distance": 20,
-              "minDistance": 0
-            },
-            "style": {
-              "innerCircle": {
-                "radius": 14,
-                "fillColor": "rgba(255, 165, 0, 0.7)",
-                "text": {
-                  "fillColor": "#fff",
-                  "strokeColor": "rgba(0, 0, 0, 0.6)",
-                  "strokeWidth": 3
-                }
-              },
-              "outerCircle": {
-                "radius": 20,
-                "fillColor": "rgba(255, 153, 102, 0.3)"
-              }
-            }
-          }
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "chi_test",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:chi_test&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": true,
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "Coal Ash",
-          "es": "Coal Ash",
-          "pt": "Coal Ash"
-        },
-        "visible": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "radius": 8,
-          "strokeWidth": 1,
-          "strokeColor": "red",
-          "stylePropFnRef": {
-            "fillColor": "variable1"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "cluster": {
-            "options": {
-              "distance": 20,
-              "minDistance": 0
-            },
-            "style": {
-              "innerCircle": {
-                "radius": 14,
-                "fillColor": "rgba(255, 165, 0, 0.7)",
-                "text": {
-                  "fillColor": "#fff",
-                  "strokeColor": "rgba(0, 0, 0, 0.6)",
-                  "strokeWidth": 3
-                }
-              },
-              "outerCircle": {
-                "radius": 20,
-                "fillColor": "rgba(255, 153, 102, 0.3)"
-              }
-            }
-          }
-        }
-      },
-      {
-        "type": "VECTOR",
         "name": "videos",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -693,18 +603,13 @@
       {
         "type": "XYZ",
         "name": "osm",
-        "group": "media",
+        "group": "backgroundLayers",
         "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.25,
-        "maxResolution": 64000,
-        "queryable": false,
-        "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
-        "legendDisplayName": {
-          "en": "OpenStreetMap",
-          "es": "OpenStreetMap",
-          "pt": "OpenStreetMap"
-        },
+        "maxResolution": 60000,
+        "displayInLegend": false,
+        "legendDisplayName": "OpenStreetMap",
+        "opacity": 0.99,
         "visible": true
       },
       {
@@ -713,8 +618,7 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 64000,
-        "opacity": 1,
+        "maxResolution": 8,
         "queryable": false,
         "visible": true
       },
@@ -729,31 +633,6 @@
         "legendDisplayName": "Base map",
         "opacity": 1,
         "queryable": false,
-        "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
-        "legendDisplayName": {
-          "en": "Spotlight",
-          "es": "Foco satélital",
-          "pt": "Foco satelital"
-        },
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery3",
-        "group": "data",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 2,
-        "opacity": 1,
-        "queryable": false,
-        "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
-        "legendDisplayName": {
-          "en": "Spotlight",
-          "es": "Foco satélital",
-          "pt": "Foco satelital"
-        },
         "visible": true
       },
       {
@@ -791,17 +670,6 @@
         "opacity": 1,
         "queryable": false,
         "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "carto_dark",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
       }
     ],
     "groups": {
@@ -826,7 +694,7 @@
           "maxResolution": 64000
         },
         "local": {
-          "layers": ["ESRI-World-Imagery"],
+          "layers": [],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -834,7 +702,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": ["osm2", "Rosario", "colaboradores", "chi_test"],
+          "layers": [],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -863,7 +731,7 @@
           "maxResolution": 64000
         },
         "local": {
-          "layers": ["osm", "burnables"],
+          "layers": [],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -871,7 +739,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "burnables"],
+          "layers": [],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -891,16 +759,8 @@
       "yellow": "Conviviality"
     },
     "regionTitles": {
-      "local": {
-        "en": "local",
-        "es": "entorno",
-        "pt": "entorno"
-      },
-      "global": {
-        "en": "global",
-        "es": "mundo",
-        "pt": "mundo"
-      },
+      "local": "local",
+      "global": "global",
       "default": "Default"
     },
     "popupFieldsMapping": {
@@ -923,10 +783,7 @@
       "videoSrc",
       "colorkey",
       "latitude",
-      "longitude",
-      "port",
-      "soybean_importer",
-      "translations"
+      "longitude"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": ""
